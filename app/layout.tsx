@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import BottomNav from "@/components/BottomNav";
 
 export const metadata: Metadata = {
-  title: "よめたね！",
+  title: "よめたね",
   description: "音読練習アプリ",
 };
 
@@ -10,7 +11,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#0EA5E9",
+  themeColor: "#FAF7F2",
 };
 
 export default function RootLayout({
@@ -20,9 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="bg-stone-50 min-h-screen antialiased">
-        <div className="max-w-lg mx-auto min-h-screen bg-white shadow-sm">
+      <body className="min-h-screen" style={{ backgroundColor: "#FAF7F2" }}>
+        <div className="max-w-md mx-auto min-h-screen bg-[#FAF7F2] relative">
           {children}
+          <BottomNav />
         </div>
       </body>
     </html>

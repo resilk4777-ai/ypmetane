@@ -9,10 +9,10 @@ interface ReadingTextDisplayProps {
 }
 
 const stateStyles: Record<string, string> = {
-  unread: 'text-gray-800',
-  current: 'text-gray-800 bg-yellow-100 rounded px-0.5',
-  read: 'text-emerald-600',
-  retry: 'text-amber-500',
+  unread: 'text-[#3D2B1F]',
+  current: 'text-[#3D2B1F] bg-[#FDF3CC] rounded px-0.5',
+  read: 'text-[#4A7C40]',
+  retry: 'text-[#D4875A]',
 };
 
 const fontSizeMap = {

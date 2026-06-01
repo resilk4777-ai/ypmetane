@@ -77,50 +77,40 @@ function CompleteContent() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen pb-24">
       <SuccessEffect show={showEffect} />
 
       <div className="flex-1 flex flex-col items-center justify-center px-5 py-10 text-center">
-        {/* 完了アイコン */}
-        <div className="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mb-6 border-4 border-emerald-100">
-          <span className="text-5xl">🎊</span>
+        <div className="w-28 h-28 bg-[#D9EDDA] rounded-full flex items-center justify-center mb-6 border-4 border-[#A8D8A8]">
+          <span className="text-6xl">🎊</span>
         </div>
 
-        <h1 className="text-2xl font-black text-gray-800 mb-2">音読クリア！</h1>
-        <p className="text-base text-gray-600 mb-8">最後まで読めました</p>
+        <h1 className="text-3xl font-black text-[#4A3728] mb-2">音読クリア！</h1>
+        <p className="text-base text-[#9A8070] mb-8">最後まで読めました</p>
 
-        {/* 統計 */}
-        <div className="w-full max-w-sm bg-gray-50 rounded-2xl p-5 mb-6">
+        <div className="w-full max-w-sm bg-white rounded-3xl p-5 mb-6 shadow-sm">
           <div className="grid grid-cols-2 gap-4">
-            <div className="text-center">
-              <p className="text-2xl font-bold text-sky-500">
-                {Math.round(session.progressRate * 100)}%
-              </p>
-              <p className="text-xs text-gray-500 mt-1">読めた割合</p>
+            <div className="text-center bg-[#D9EDDA] rounded-2xl py-3">
+              <p className="text-2xl font-black text-[#4A7C40]">{Math.round(session.progressRate * 100)}%</p>
+              <p className="text-xs text-[#9A8070] mt-1">読めた割合</p>
             </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-emerald-500">
-                {formatDuration(session.durationSeconds)}
-              </p>
-              <p className="text-xs text-gray-500 mt-1">かかった時間</p>
+            <div className="text-center bg-[#FDF3CC] rounded-2xl py-3">
+              <p className="text-2xl font-black text-[#8A6A20]">{formatDuration(session.durationSeconds)}</p>
+              <p className="text-xs text-[#9A8070] mt-1">かかった時間</p>
             </div>
           </div>
         </div>
 
-        {/* スタンプ */}
         {stampsGiven.length > 0 && (
           <div className="w-full max-w-sm mb-8">
-            <p className="text-sm font-medium text-gray-600 mb-3">スタンプを押しました</p>
+            <p className="text-sm font-bold text-[#9A8070] mb-3">スタンプを押しました</p>
             <div className="flex flex-wrap gap-2 justify-center">
               {stampsGiven.map((sid) => {
                 const info = STAMP_LABELS[sid];
                 return info ? (
-                  <div
-                    key={sid}
-                    className="flex items-center gap-2 bg-amber-50 border-2 border-amber-200 rounded-full px-4 py-2"
-                  >
+                  <div key={sid} className="flex items-center gap-2 bg-[#FDF3CC] border-2 border-[#F5D98A] rounded-full px-4 py-2">
                     <span className="text-xl">{info.emoji}</span>
-                    <span className="text-sm font-semibold text-amber-700">{info.name}</span>
+                    <span className="text-sm font-bold text-[#8A6A20]">{info.name}</span>
                   </div>
                 ) : null;
               })}
@@ -129,24 +119,20 @@ function CompleteContent() {
         )}
       </div>
 
-      {/* ボタンエリア */}
       <div className="px-5 pb-8 space-y-3">
         <Link
           href="/cards"
-          className="block w-full bg-sky-500 text-white rounded-2xl py-4 font-semibold text-base text-center hover:bg-sky-600 active:scale-95 transition-all shadow-sm"
+          className="block w-full bg-[#6AAF5A] text-white rounded-3xl py-4 font-bold text-base text-center active:scale-95 transition-all shadow-sm"
         >
           今日の音読カードを見る
         </Link>
         <button
           onClick={() => router.push(`/practice?id=${textId}`)}
-          className="w-full bg-white border border-gray-200 text-gray-700 rounded-2xl py-4 font-semibold text-base hover:bg-gray-50 active:scale-95 transition-all"
+          className="w-full bg-white border-2 border-[#EDE8DF] text-[#4A3728] rounded-3xl py-4 font-bold text-base active:scale-95 transition-all"
         >
           もう一回読む
         </button>
-        <Link
-          href="/"
-          className="block w-full text-gray-500 text-center py-3 text-sm hover:text-gray-700 transition-colors"
-        >
+        <Link href="/" className="block w-full text-[#9A8070] text-center py-3 text-sm hover:text-[#6AAF5A] transition-colors">
           ホームに戻る
         </Link>
       </div>
