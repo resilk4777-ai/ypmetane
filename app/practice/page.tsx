@@ -32,7 +32,7 @@ function PracticeContent() {
   const [segments, setSegments] = useState<TextSegment[]>([]);
   const [state, setState] = useState<PracticeState>('ready');
   const [errorMsg, setErrorMsg] = useState('');
-  const [settings, setSettings] = useState<Settings>({ soundEnabled: true, effectsEnabled: true, fontSize: 'large', lineHeight: 'relaxed' });
+  const [settings, setSettings] = useState<Settings>({ soundEnabled: true, effectsEnabled: true, fontSize: 'large', lineHeight: 'relaxed', childName: '' });
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [interimText, setInterimText] = useState('');
 

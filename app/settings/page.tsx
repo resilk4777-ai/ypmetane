@@ -7,7 +7,7 @@ import { isSpeechRecognitionSupported } from '@/lib/speech';
 import type { Settings } from '@/types/settings';
 
 export default function SettingsPage() {
-  const [settings, setSettings] = useState<Settings>({ soundEnabled: true, effectsEnabled: true, fontSize: 'large', lineHeight: 'relaxed' });
+  const [settings, setSettings] = useState<Settings>({ soundEnabled: true, effectsEnabled: true, fontSize: 'large', lineHeight: 'relaxed', childName: '' });
   const [speechSupported, setSpeechSupported] = useState<boolean | null>(null);
   const [resetConfirm, setResetConfirm] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -36,6 +36,21 @@ export default function SettingsPage() {
       <AppHeader title="設定" backHref="/" />
 
       <div className="flex-1 px-4 py-4 space-y-4">
+        {/* こどもの名前 */}
+        <Section title="プロフィール">
+          <div className="px-5 py-4">
+            <label className="block text-sm font-medium text-[#4A3728] mb-2">こどもの名前</label>
+            <input
+              type="text"
+              value={settings.childName}
+              onChange={(e) => update('childName', e.target.value)}
+              placeholder="ゆうと"
+              className="w-full border border-[#EDE8DF] rounded-2xl px-4 py-3 text-base bg-[#FAF7F2] focus:outline-none focus:ring-2 focus:ring-[#6AAF5A]/30"
+            />
+            <p className="text-xs text-[#9A8070] mt-1.5">音読カードに表示されます</p>
+          </div>
+        </Section>
+
         {/* マイク */}
         <Section title="マイク・音声認識">
           <div className="px-5 py-4 space-y-3">

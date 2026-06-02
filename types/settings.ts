@@ -3,6 +3,7 @@ export interface Settings {
   effectsEnabled: boolean;
   fontSize: 'small' | 'medium' | 'large';
   lineHeight: 'normal' | 'relaxed' | 'loose';
+  childName: string;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -10,4 +11,5 @@ export const DEFAULT_SETTINGS: Settings = {
   effectsEnabled: true,
   fontSize: 'large',
   lineHeight: 'relaxed',
+  childName: '',
 };
