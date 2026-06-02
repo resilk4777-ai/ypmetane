@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReadingSession, ReadingText } from '@/types/reading';
+import StampSvg from '@/components/StampSvg';
 
 type ResultLevel = 'perfect' | 'good' | 'try';
 
@@ -123,7 +124,7 @@ export default function ReadingResultCard({ session, text, childName, onClose }:
               </div>
               {/* スタンプ */}
               <div className="shrink-0 ml-4">
-                <StampCircle level={level} cfg={cfg} />
+                <StampSvg level={level} size={96} />
               </div>
             </div>
 
@@ -181,89 +182,3 @@ function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
-// ── スタンプSVG ──
-function StampCircle({ level, cfg }: { level: ResultLevel; cfg: ResultConfig }) {
-  if (level === 'perfect') {
-    return (
-      <svg width="96" height="96" viewBox="0 0 96 96" fill="none">
-        {/* 波形外枠 */}
-        <path d={wavePath(48, 48, 44, 12)} fill="none" stroke={cfg.stampBorder} strokeWidth="2.5" opacity="0.8"/>
-        <path d={wavePath(48, 48, 38, 12)} fill={cfg.stampBg} stroke={cfg.stampBorder} strokeWidth="1.5" opacity="0.5"/>
-        {/* 顔 */}
-        <circle cx="48" cy="46" r="22" fill="#FFE0DC" stroke={cfg.stampBorder} strokeWidth="2"/>
-        {/* 王冠 */}
-        <path d="M36 36 L40 30 L48 34 L56 30 L60 36 L58 40 H38 Z" fill="#F5C842" stroke="#D4A020" strokeWidth="1"/>
-        <circle cx="38" cy="34" r="2" fill="#F5C842"/>
-        <circle cx="58" cy="34" r="2" fill="#F5C842"/>
-        {/* 目・口 */}
-        <ellipse cx="42" cy="46" rx="3" ry="3.5" fill={cfg.stampColor} opacity="0.8"/>
-        <ellipse cx="54" cy="46" rx="3" ry="3.5" fill={cfg.stampColor} opacity="0.8"/>
-        <path d="M40 53 Q48 59 56 53" stroke={cfg.stampColor} strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-        {/* テキスト */}
-        <path id="topArc" d="M 18 48 A 30 30 0 0 1 78 48" fill="none"/>
-        <text fontSize="9" fontWeight="bold" fill={cfg.stampColor}>
-          <textPath href="#topArc" startOffset="15%">カンペキ！</textPath>
-        </text>
-      </svg>
-    );
-  }
-
-  if (level === 'good') {
-    return (
-      <svg width="96" height="96" viewBox="0 0 96 96" fill="none">
-        <circle cx="48" cy="48" r="44" fill="none" stroke={cfg.stampBorder} strokeWidth="2.5" opacity="0.7"/>
-        <circle cx="48" cy="48" r="38" fill={cfg.stampBg} stroke={cfg.stampBorder} strokeWidth="1.5" opacity="0.4"/>
-        <circle cx="48" cy="47" r="22" fill="#C8F0CC" stroke={cfg.stampBorder} strokeWidth="2"/>
-        {/* 目・口 */}
-        <ellipse cx="42" cy="44" rx="3" ry="3.5" fill={cfg.stampColor} opacity="0.9"/>
-        <ellipse cx="54" cy="44" rx="3" ry="3.5" fill={cfg.stampColor} opacity="0.9"/>
-        <path d="M40 52 Q48 58 56 52" stroke={cfg.stampColor} strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-        {/* ほっぺ */}
-        <circle cx="37" cy="50" r="4" fill="#F0A0A0" opacity="0.5"/>
-        <circle cx="59" cy="50" r="4" fill="#F0A0A0" opacity="0.5"/>
-        {/* テキスト */}
-        <path id="topArcG" d="M 12 48 A 36 36 0 0 1 84 48" fill="none"/>
-        <text fontSize="8.5" fontWeight="bold" fill={cfg.stampColor}>
-          <textPath href="#topArcG" startOffset="8%">がんばったね！</textPath>
-        </text>
-        <path id="botArcG" d="M 84 48 A 36 36 0 0 1 12 48" fill="none"/>
-        <text fontSize="7" fill={cfg.stampColor} opacity="0.7">
-          <textPath href="#botArcG" startOffset="25%">★　★　★</textPath>
-        </text>
-      </svg>
-    );
-  }
-
-  // try
-  return (
-    <svg width="96" height="96" viewBox="0 0 96 96" fill="none">
-      <circle cx="48" cy="48" r="44" fill="none" stroke={cfg.stampBorder} strokeWidth="3" opacity="0.7" strokeDasharray="6 3"/>
-      <circle cx="48" cy="47" r="24" fill="#FFE8E8" stroke={cfg.stampBorder} strokeWidth="2"/>
-      {/* 目・口（少し困り顔） */}
-      <ellipse cx="42" cy="44" rx="3" ry="3" fill={cfg.stampColor} opacity="0.8"/>
-      <ellipse cx="54" cy="44" rx="3" ry="3" fill={cfg.stampColor} opacity="0.8"/>
-      <path d="M41 53 Q48 50 55 53" stroke={cfg.stampColor} strokeWidth="2" strokeLinecap="round" fill="none"/>
-      {/* ほっぺ */}
-      <circle cx="37" cy="49" r="4" fill="#F0B0B0" opacity="0.5"/>
-      <circle cx="59" cy="49" r="4" fill="#F0B0B0" opacity="0.5"/>
-      {/* テキスト */}
-      <path id="topArcT" d="M 12 48 A 36 36 0 0 1 84 48" fill="none"/>
-      <text fontSize="8.5" fontWeight="bold" fill={cfg.stampColor}>
-        <textPath href="#topArcT" startOffset="10%">がんばろう！</textPath>
-      </text>
-    </svg>
-  );
-}
-
-// 波形パス生成
-function wavePath(cx: number, cy: number, r: number, waves: number): string {
-  const points: string[] = [];
-  for (let i = 0; i <= waves * 2; i++) {
-    const angle = (i / (waves * 2)) * Math.PI * 2 - Math.PI / 2;
-    const rr = i % 2 === 0 ? r : r - 5;
-    const x = cx + rr * Math.cos(angle);
-    const y = cy + rr * Math.sin(angle);
-    points.push(i === 0 ? `M ${x} ${y}` : `L ${x} ${y}`);
-  }
-  return points.join(' ') + ' Z';
-}

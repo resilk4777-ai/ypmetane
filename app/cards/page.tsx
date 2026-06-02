@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import AppHeader from '@/components/AppHeader';
 import ReadingResultCard from '@/components/ReadingResultCard';
+import StampSvg from '@/components/StampSvg';
+import type { StampLevel } from '@/components/StampSvg';
 import { getSessions, getReadingTexts, getSettings } from '@/lib/storage';
 import type { ReadingSession, ReadingText } from '@/types/reading';
 
@@ -213,54 +215,16 @@ export default function CardsPage() {
   );
 }
 
-// ── スタンプアイコン（カレンダー用小サイズ） ──
+// ── スタンプアイコン（StampSvg ラッパー） ──
 function DayStampIcon({ stamp, small = false }: { stamp: DayStamp; small?: boolean }) {
-  const cfg = STAMP_CONFIG[stamp];
-  const sz = small ? 'w-9 h-9' : 'w-9 h-9';
-
-  if (stamp === 'rest') return (
-    <div className={`${sz} rounded-full flex items-center justify-center border-2`}
-      style={{ borderColor: cfg.border, backgroundColor: cfg.bg }}>
-      <span style={{ fontSize: '16px' }}>😶</span>
-    </div>
-  );
-  if (stamp === 'perfect') return (
-    <div className={`${sz} rounded-full flex items-center justify-center border-[3px] relative`}
-      style={{ borderColor: cfg.border, backgroundColor: cfg.bg }}>
-      <svg width={small ? 28 : 30} height={small ? 28 : 30} viewBox="0 0 32 32" fill="none">
-        <circle cx="16" cy="16" r="14" fill="#FFE0DC" stroke={cfg.border} strokeWidth="1.5"/>
-        <path d="M9 13 L12 9 L16 12 L20 9 L23 13 L22 16 H10 Z" fill="#F5C842" stroke="#D4A020" strokeWidth="0.8"/>
-        <ellipse cx="11.5" cy="19" rx="2.5" ry="2.5" fill={cfg.color} opacity="0.8"/>
-        <ellipse cx="20.5" cy="19" rx="2.5" ry="2.5" fill={cfg.color} opacity="0.8"/>
-        <path d="M10 24 Q16 28 22 24" stroke={cfg.color} strokeWidth="2" strokeLinecap="round" fill="none"/>
-      </svg>
-    </div>
-  );
-  if (stamp === 'good') return (
-    <div className={`${sz} rounded-full flex items-center justify-center border-[3px]`}
-      style={{ borderColor: cfg.border, backgroundColor: cfg.bg }}>
-      <svg width={small ? 28 : 30} height={small ? 28 : 30} viewBox="0 0 32 32" fill="none">
-        <circle cx="16" cy="16" r="14" fill="#C8F0CC" stroke={cfg.border} strokeWidth="1.5"/>
-        <ellipse cx="11" cy="14" rx="2.5" ry="2.5" fill={cfg.color}/>
-        <ellipse cx="21" cy="14" rx="2.5" ry="2.5" fill={cfg.color}/>
-        <path d="M10 21 Q16 26 22 21" stroke={cfg.color} strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-        <circle cx="8" cy="19" r="3" fill="#F0A0A0" opacity="0.5"/>
-        <circle cx="24" cy="19" r="3" fill="#F0A0A0" opacity="0.5"/>
-      </svg>
-    </div>
-  );
-  // try
+  const size = small ? 40 : 36;
+  if (stamp === 'future') return <div style={{ width: size, height: size }} />;
+  const level: StampLevel = stamp === 'rest' ? 'rest'
+    : stamp === 'perfect' ? 'perfect'
+    : stamp === 'good' ? 'good' : 'try';
   return (
-    <div className={`${sz} rounded-full flex items-center justify-center border-[3px]`}
-      style={{ borderColor: cfg.border, backgroundColor: cfg.bg, borderStyle: 'dashed' }}>
-      <svg width={small ? 28 : 30} height={small ? 28 : 30} viewBox="0 0 32 32" fill="none">
-        <circle cx="16" cy="16" r="14" fill="#FFE8E8" stroke={cfg.border} strokeWidth="1.5"/>
-        <ellipse cx="11" cy="14" rx="2.5" ry="2.5" fill={cfg.color} opacity="0.8"/>
-        <ellipse cx="21" cy="14" rx="2.5" ry="2.5" fill={cfg.color} opacity="0.8"/>
-        <path d="M11 22 Q16 20 21 22" stroke={cfg.color} strokeWidth="2" strokeLinecap="round" fill="none"/>
-        <circle cx="8" cy="19" r="3" fill="#F0B0B0" opacity="0.5"/>
-        <circle cx="24" cy="19" r="3" fill="#F0B0B0" opacity="0.5"/>
-      </svg>
+    <div style={{ width: size, height: size }}>
+      <StampSvg level={level} size={size} />
     </div>
   );
 }
