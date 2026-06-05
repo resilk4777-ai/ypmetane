@@ -152,10 +152,16 @@ export default function CardsPage() {
                     <p className={`text-xs font-bold leading-none ${isToday ? 'text-white bg-[#6AAF5A] w-5 h-5 rounded-full flex items-center justify-center' : isSun ? 'text-[#E05A5A]' : isSat ? 'text-[#5A7AE0]' : 'text-[#4A3728]'}`}>
                       {cell.day}
                     </p>
-                    {cell.stamp !== 'future'
-                      ? <DayStampIcon stamp={cell.stamp} />
-                      : <div className="w-11 h-11" />
-                    }
+                    {cell.stamp === 'future' ? (
+                      <div className="w-12 h-12" />
+                    ) : cell.stamp === 'rest' ? (
+                      <div className="flex flex-col items-center gap-0.5 opacity-40">
+                        <DayStampIcon stamp="rest" />
+                        <p className="text-[8px] text-gray-400">おやすみ</p>
+                      </div>
+                    ) : (
+                      <DayStampIcon stamp={cell.stamp} />
+                    )}
                   </button>
                 );
               })}
@@ -212,7 +218,7 @@ export default function CardsPage() {
 
 // ── スタンプアイコン（StampSvg ラッパー） ──
 function DayStampIcon({ stamp, small = false }: { stamp: DayStamp; small?: boolean }) {
-  const size = small ? 44 : 44;
+  const size = stamp === 'rest' ? 32 : small ? 44 : 52;
   if (stamp === 'future') return <div style={{ width: size, height: size }} />;
   const level: StampLevel = stamp === 'rest' ? 'rest'
     : stamp === 'perfect' ? 'perfect'
