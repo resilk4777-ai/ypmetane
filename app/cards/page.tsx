@@ -154,13 +154,8 @@ export default function CardsPage() {
                     </p>
                     {cell.stamp !== 'future'
                       ? <DayStampIcon stamp={cell.stamp} />
-                      : <div className="w-9 h-9" />
+                      : <div className="w-11 h-11" />
                     }
-                    {cell.stamp !== 'future' && (
-                      <p className="text-[8px] font-medium text-center leading-tight" style={{ color: cfg.color }}>
-                        {cfg.label}
-                      </p>
-                    )}
                   </button>
                 );
               })}
@@ -217,7 +212,7 @@ export default function CardsPage() {
 
 // ── スタンプアイコン（StampSvg ラッパー） ──
 function DayStampIcon({ stamp, small = false }: { stamp: DayStamp; small?: boolean }) {
-  const size = small ? 40 : 36;
+  const size = small ? 44 : 44;
   if (stamp === 'future') return <div style={{ width: size, height: size }} />;
   const level: StampLevel = stamp === 'rest' ? 'rest'
     : stamp === 'perfect' ? 'perfect'
