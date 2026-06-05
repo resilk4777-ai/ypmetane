@@ -35,6 +35,7 @@ function PracticeContent() {
   const [settings, setSettings] = useState<Settings>({ soundEnabled: true, effectsEnabled: true, fontSize: 'large', lineHeight: 'relaxed', childName: '' });
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [interimText, setInterimText] = useState('');
+  const [showStartModal, setShowStartModal] = useState(true);
 
   const speechRef = useRef<SpeechController | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -228,6 +229,56 @@ function PracticeContent() {
         title={readingText.title}
         backHref="/readings"
       />
+
+      {/* ── スタートモーダル ── */}
+      {showStartModal && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-end bg-black/40">
+          <div className="w-full max-w-md bg-[#FAF7F2] rounded-t-3xl px-5 pt-5 pb-10">
+            {/* ハンドル */}
+            <div className="flex justify-center mb-4">
+              <div className="w-10 h-1 bg-gray-300 rounded-full" />
+            </div>
+
+            {/* タイトル・教科 */}
+            <div className="bg-white rounded-2xl px-4 py-3 mb-5 shadow-sm">
+              <p className="text-base font-bold text-[#4A3728] truncate">{readingText.title}</p>
+              {(readingText.subject || readingText.page) && (
+                <div className="flex gap-3 mt-1 text-xs text-[#9A8070]">
+                  {readingText.subject && <span>{readingText.subject}</span>}
+                  {readingText.page && <span>{readingText.page}ページ</span>}
+                </div>
+              )}
+            </div>
+
+            <div className="text-center mb-6">
+              <p className="text-2xl mb-2">🎤</p>
+              <p className="text-lg font-black text-[#4A3728]">音読をはじめますか？</p>
+              <p className="text-sm text-[#9A8070] mt-1">マイクを使って声を聞きとります</p>
+            </div>
+
+            <div className="space-y-3">
+              <button
+                onClick={() => { setShowStartModal(false); startListening(); }}
+                className="w-full bg-[#6AAF5A] text-white rounded-3xl py-4 font-bold text-base active:scale-95 transition-all shadow-sm"
+              >
+                マイクをオンにしてはじめる
+              </button>
+              <button
+                onClick={() => setShowStartModal(false)}
+                className="w-full bg-white border-2 border-[#EDE8DF] text-[#9A8070] rounded-3xl py-3.5 font-semibold text-sm active:scale-95 transition-all"
+              >
+                まず文章を確認する
+              </button>
+              <button
+                onClick={() => router.back()}
+                className="w-full text-[#9A8070] py-2 text-sm"
+              >
+                もどる
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* テキスト情報 */}
       {(readingText.subject || readingText.page) && (
