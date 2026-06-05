@@ -29,7 +29,8 @@ const STAMP_CONFIG: Record<DayStamp, { label: string; color: string; border: str
 function getStamp(sessions: ReadingSession[], dateStr: string, today: string): DayStamp {
   if (dateStr > today) return 'future';
   const ds = sessions.filter((s) => s.date === dateStr);
-  if (ds.length === 0) return 'rest';
+  // 今日はまだ練習できるので、セッションがなくても「おやすみ」にしない
+  if (ds.length === 0) return dateStr === today ? 'future' : 'rest';
   const maxProg = Math.max(...ds.map((s) => s.progressRate));
   if (maxProg >= 0.9) return 'perfect';
   if (maxProg >= 0.6) return 'good';
